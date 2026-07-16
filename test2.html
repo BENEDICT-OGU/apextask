@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Apextask | Complete Application</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-variant": "#d6e3ff",
+            "on-tertiary-fixed-variant": "#812800",
+            "on-background": "#091c35",
+            "surface-tint": "#0c56d0",
+            "surface-container-low": "#f0f3ff",
+            "surface": "#f9f9ff",
+            "secondary-container": "#82f9be",
+            "tertiary": "#7b2600",
+            "on-primary-fixed-variant": "#0040a2",
+            "surface-container-high": "#dfe8ff",
+            "outline": "#737685",
+            "surface-container-highest": "#d6e3ff",
+            "primary-fixed": "#dae2ff",
+            "error": "#ba1a1a",
+            "background": "#f9f9ff",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed": "#002113",
+            "on-secondary": "#ffffff",
+            "tertiary-container": "#a33500",
+            "surface-container": "#e7eeff",
+            "tertiary-fixed": "#ffdbcf",
+            "on-surface": "#091c35",
+            "secondary": "#006c47",
+            "on-tertiary-fixed": "#380d00",
+            "on-tertiary": "#ffffff",
+            "primary": "#003d9b",
+            "outline-variant": "#c3c6d6",
+            "surface-dim": "#cadbfc",
+            "inverse-on-surface": "#ecf0ff",
+            "secondary-fixed": "#82f9be",
+            "error-container": "#ffdad6",
+            "primary-container": "#0052cc",
+            "secondary-fixed-dim": "#65dca4",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed-dim": "#b2c5ff",
+            "on-primary": "#ffffff",
+            "tertiary-fixed-dim": "#ffb59b",
+            "on-primary-container": "#c4d2ff",
+            "on-tertiary-container": "#ffc6b2",
+            "on-secondary-fixed-variant": "#005235",
+            "surface-bright": "#f9f9ff",
+            "on-surface-variant": "#434654",
+            "on-primary-fixed": "#001848",
+            "on-secondary-container": "#00734c",
+            "on-error": "#ffffff",
+            "inverse-primary": "#b2c5ff",
+            "inverse-surface": "#20314b"
+          },
+          borderRadius: {
+            DEFAULT: "0.125rem",
+            lg: "0.25rem",
+            xl: "0.5rem",
+            full: "0.75rem"
+          },
+          spacing: {
+            lg: "24px",
+            base: "8px",
+            "container-max": "1280px",
+            xs: "4px",
+            gutter: "24px",
+            xl: "40px",
+            sm: "12px",
+            md: "16px"
+          },
+          fontFamily: {
+            "label-md": ["Inter"],
+            "display-lg": ["Hanken Grotesk"],
+            "body-md": ["Inter"],
+            "body-lg": ["Inter"],
+            "label-sm": ["Inter"],
+            "headline-lg": ["Hanken Grotesk"],
+            "title-md": ["Hanken Grotesk"],
+            "headline-lg-mobile": ["Hanken Grotesk"]
+          },
+          fontSize: {
+            "label-md": ["14px", { lineHeight: "20px", fontWeight: "500" }],
+            "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+            "label-sm": ["12px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "600" }],
+            "headline-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "title-md": ["20px", { lineHeight: "28px", fontWeight: "600" }],
+            "headline-lg-mobile": ["28px", { lineHeight: "36px", fontWeight: "600" }]
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .tonal-layer-1 {
+      background-color: #ffffff;
+      border: 1px solid #ebecf0;
+    }
+    .tonal-layer-2:hover {
+      box-shadow: 0px 4px 12px rgba(9, 30, 66, 0.08);
+      transform: translateY(-2px);
+      transition: all 0.3s ease;
+    }
+    .step-transition {
+      transition: all 0.3s ease-in-out;
+    }
+    .hidden-step {
+      display: none;
+      opacity: 0;
+      transform: translateX(10px);
+    }
+    .active-step {
+      display: block;
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .progress-bar-fill {
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    body {
+      background-color: #f9f9ff;
+      color: #091c35;
+    }
+    .payment-card {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .payment-card:hover {
+      border-color: #003d9b;
+      background-color: #f0f3ff;
+    }
+    .payment-card.selected {
+      border-color: #003d9b;
+      background-color: #dae2ff;
+      box-shadow: 0 0 0 2px #003d9b22;
+    }
+    .mobile-menu {
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
+    .mobile-overlay {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .page-section {
+      display: none !important;
+    }
+    .page-section.active {
+      display: block !important;
+    }
+    @keyframes success-pop {
+      0% { transform: scale(0.8); opacity: 0; }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-success {
+      animation: success-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    .bg-mesh-gradient {
+      background-color: #f9f9ff;
+      background-image: radial-gradient(at 0% 0%, hsla(217, 100%, 95%, 1) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, hsla(158, 80%, 95%, 1) 0px, transparent 50%);
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+      animation: spin 1s linear infinite;
+    }
+  </style>
+</head>
+<body class="font-body-md text-body-md antialiased min-h-screen flex flex-col">
+
+  <!-- ====== TOP APP BAR ====== -->
+  <header class="fixed top-0 w-full z-50 bg-surface-container-lowest shadow-sm h-16">
+    <div class="flex justify-between items-center max-w-container-max mx-auto px-gutter h-full">
+      <div class="flex items-center gap-base cursor-pointer" onclick="navigateTo('landing')">
+        <span class="material-symbols-outlined text-primary text-[32px]">task_alt</span>
+        <span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary md:font-headline-lg md:text-headline-lg">Apextask</span>
+      </div>
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex gap-lg items-center">
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-md text-label-md cursor-pointer" onclick="navigateTo('landing')">Home</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-md text-label-md cursor-pointer" onclick="navigateTo('howitworks')">How it Works</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-md text-label-md cursor-pointer" onclick="navigateTo('categories')">Categories</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-md text-label-md cursor-pointer" onclick="navigateTo('services')">Services</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-md text-label-md cursor-pointer" onclick="navigateTo('skills')">Skills</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-md text-label-md cursor-pointer" onclick="navigateTo('faq')">FAQ</a>
+      </nav>
+      <div class="flex items-center gap-md">
+        <button class="font-label-md text-label-md text-primary font-bold active:scale-95 transition-transform hidden md:block">Sign In</button>
+        <button onclick="navigateTo('application')" class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md font-bold active:scale-95 transition-transform">Apply Now</button>
+        <button id="menuToggle" class="md:hidden text-on-surface-variant" onclick="toggleMobileMenu()">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div id="mobileOverlay" class="mobile-overlay fixed inset-0 z-40 bg-black/30" onclick="toggleMobileMenu()"></div>
+  <div id="mobileMenu" class="mobile-menu fixed top-0 right-0 h-full w-64 bg-surface-container-lowest z-50 shadow-xl p-6 pt-20">
+    <button onclick="toggleMobileMenu()" class="absolute top-4 right-4 text-on-surface-variant">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <nav class="flex flex-col gap-4">
+      <a class="text-on-surface-variant font-medium hover:text-primary transition-colors cursor-pointer" onclick="navigateTo('landing');toggleMobileMenu()">Home</a>
+      <a class="text-on-surface-variant font-medium hover:text-primary transition-colors cursor-pointer" onclick="navigateTo('howitworks');toggleMobileMenu()">How it Works</a>
+      <a class="text-on-surface-variant font-medium hover:text-primary transition-colors cursor-pointer" onclick="navigateTo('categories');toggleMobileMenu()">Categories</a>
+      <a class="text-on-surface-variant font-medium hover:text-primary transition-colors cursor-pointer" onclick="navigateTo('services');toggleMobileMenu()">Services</a>
+      <a class="text-on-surface-variant font-medium hover:text-primary transition-colors cursor-pointer" onclick="navigateTo('skills');toggleMobileMenu()">Skills</a>
+      <a class="text-on-surface-variant font-medium hover:text-primary transition-colors cursor-pointer" onclick="navigateTo('faq');toggleMobileMenu()">FAQ</a>
+      <hr class="my-2"/>
+      <button class="text-primary font-bold text-left">Sign In</button>
+      <button onclick="navigateTo('application');toggleMobileMenu()" class="bg-primary text-on-primary px-lg py-sm rounded-lg font-bold text-center">Apply Now</button>
+    </nav>
+  </div>
+
+  <!-- ====== PAGE SECTIONS ====== -->
+
+  <!-- LANDING PAGE -->
+  <div id="landingPage" class="page-section active pt-16">
+    <main>
+      <!-- Hero -->
+      <section class="relative overflow-hidden bg-surface-container-low py-xl md:py-32">
+        <div class="max-w-container-max mx-auto px-gutter grid grid-cols-1 lg:grid-cols-2 gap-xl items-center relative z-10">
+          <div class="flex flex-col gap-base">
+            <span class="text-primary font-label-md text-label-md uppercase tracking-wider">Join the Elite Tasker Network</span>
+            <h1 class="font-display-lg text-display-lg text-on-background leading-tight">Get Paid for Your <span class="text-primary">Precision</span></h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">Join a global network of professionals completing high-impact tasks for industry leaders. Leverage your expertise, set your own schedule, and earn for accuracy.</p>
+            <div class="flex flex-wrap gap-md mt-lg">
+              <button onclick="navigateTo('application')" class="bg-primary text-on-primary px-xl py-md rounded-lg font-title-md text-title-md font-bold shadow-lg active:scale-95 transition-transform">Apply Now</button>
+              <button class="border-2 border-primary text-primary px-xl py-md rounded-lg font-title-md text-title-md font-bold hover:bg-primary-container/10 active:scale-95 transition-transform">View Open Tasks</button>
+            </div>
+            <div class="flex items-center gap-md mt-xl">
+              <div class="flex -space-x-4">
+                <div class="w-12 h-12 rounded-full border-4 border-white bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDdGC6huMfE-Mfdm_5-c7AlCfJ_JT8TbtqvQvlX61tWrXMSOPnfTR0UUvNN1tI28yoG91QWnYc3QKV2qiW9YSUoIef3hIc0Exg2e9xPNST7bfJ0C3BDt-lP5U2eGBCsZhIhq6qbdIDaAsQ7ds9XN6khqQCYw5V6F_RL06LwCcZavmviwXCQykWEu9ne2zrD_UU-1auvM-fJY52MQ6RSEgwaeI_rW5vBwrLfUx3J9Ow7-JxcjcMVLt_hcg')"></div>
+                <div class="w-12 h-12 rounded-full border-4 border-white bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuARX1pi_w_xY8K_L7mTgN0bYfr8y519h7AYGafJPOLuPK0anan3_ULsMkKDi-4UCAI3E_D_ziQGBppnGWYnHGNuDKGPsRtMkJTg7BD4hD-ME-S8xsOvFor1ylUuqszKEbnQHVYkWveze0bBd9jdS0R2OSjL37b1f1KVKiNC3qFpmHBXNgdyhBAESTV_2zDmkzWylMRCToFXBZ_XNbb-yX-M7V9d7hnyepAzrXZt9L1AmNgLPrr64jGfNA')"></div>
+                <div class="w-12 h-12 rounded-full border-4 border-white bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA7qc83n-FY3NjwHtPmw4qOpGrdYOARJRy992aiXoj3LzxMp1PxuM69gMO7V3PMwGRyeI36P6Of6da3aZoPeIdI6A5U2y3j-vK0ruppZQTJP6ueEeVDVsmQXhy30aFmQu3Pi8jPzMm8pkIXaiKObtOcHbOYlQey58GeRffFHZNcv5RLi1byl96TzoHL7h334mbIVBF0OVSIgYWsXGwE-JMfT4t6OQKCSlp-igtRrTOds-H4HprsmhT3rQ')"></div>
+              </div>
+              <p class="font-label-md text-label-md text-on-surface-variant"><span class="font-bold text-on-surface">50k+</span> active taskers globally</p>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="grid grid-cols-6 grid-rows-6 gap-md h-[400px] md:h-[500px]">
+              <div class="col-span-4 row-span-4 tonal-layer-1 rounded-xl overflow-hidden shadow-sm tonal-layer-2">
+                <div class="h-full w-full bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCM5eWHvGeqvEkUmM9Akc_y2gLeTWewCxN9wzxD3NZqtqkpNxD6iEV3mTUGTON20qFKaid1zyI6-CgV2CuMIdFjxs1IguEqX_u6pm6IOvmPZrfDlSkjGeIfp4-WoZLCySrETRfLAGpzEaZK7FhlycCgj5VX_OXXUczG_qix1S4RnesF6zMrPKl2kMWPiR30OFTxV6Fy22j1F2yvSIhSpWvzjSclSwAMNT_dz_TGst_Y9FA-OHo2texM3A')"></div>
+              </div>
+              <div class="col-span-2 row-span-2 bg-secondary-container rounded-xl flex flex-col items-center justify-center p-md text-on-secondary-container text-center">
+                <span class="material-symbols-outlined text-[40px]">verified</span>
+                <span class="font-title-md text-title-md mt-xs">99% Accuracy</span>
+              </div>
+              <div class="col-span-2 row-span-4 tonal-layer-1 rounded-xl p-md flex flex-col justify-end gap-xs tonal-layer-2">
+                <div class="bg-primary/10 w-10 h-10 rounded-full flex items-center justify-center mb-base">
+                  <span class="material-symbols-outlined text-primary">payments</span>
+                </div>
+                <p class="font-label-sm text-label-sm uppercase opacity-70">Weekly Payout</p>
+                <p class="font-title-md text-title-md">$1,420.00</p>
+              </div>
+              <div class="col-span-4 row-span-2 bg-primary rounded-xl p-lg flex items-center justify-between text-on-primary">
+                <div><p class="font-label-md text-label-md">Next Milestone</p><p class="font-headline-lg font-bold">Expert Tier</p></div>
+                <span class="material-symbols-outlined text-[48px]">trending_up</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- How it Works (preview) -->
+      <section class="py-xl md:py-32 bg-surface">
+        <div class="max-w-container-max mx-auto px-gutter">
+          <div class="text-center mb-xl">
+            <h2 class="font-headline-lg text-headline-lg text-on-background mb-base">How Apextask Works</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Our streamlined process ensures that you spend less time searching and more time earning with high-quality task flow.</p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+            <div class="tonal-layer-1 p-xl rounded-xl tonal-layer-2 flex flex-col gap-md">
+              <div class="w-16 h-16 bg-surface-container-high rounded-full flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[32px]">app_registration</span>
+              </div>
+              <h3 class="font-title-md text-title-md text-on-surface">1. Rapid Onboarding</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">Create your profile and pass a specialized precision assessment to verify your skills in under 15 minutes.</p>
+            </div>
+            <div class="tonal-layer-1 p-xl rounded-xl tonal-layer-2 flex flex-col gap-md">
+              <div class="w-16 h-16 bg-surface-container-high rounded-full flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[32px]">ads_click</span>
+              </div>
+              <h3 class="font-title-md text-title-md text-on-surface">2. Select &amp; Complete</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">Browse our queue of micro-tasks and choose the ones that match your expertise. Complete them with precision.</p>
+            </div>
+            <div class="tonal-layer-1 p-xl rounded-xl tonal-layer-2 flex flex-col gap-md">
+              <div class="w-16 h-16 bg-surface-container-high rounded-full flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[32px]">account_balance_wallet</span>
+              </div>
+              <h3 class="font-title-md text-title-md text-on-surface">3. Get Paid Fast</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">Once tasks are validated by our quality engine, earnings are instantly added to your wallet for weekly withdrawal.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services preview -->
+      <section class="py-xl md:py-32 bg-surface-container-low">
+        <div class="max-w-container-max mx-auto px-gutter">
+          <div class="text-center mb-xl">
+            <h2 class="font-headline-lg text-headline-lg text-on-background mb-base">Our Services</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">From creative to technical — we connect you with tasks that match your skills.</p>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-md">
+            <div class="tonal-layer-1 p-lg rounded-xl text-center tonal-layer-2">
+              <span class="material-symbols-outlined text-primary text-[48px]">design_services</span>
+              <h4 class="font-title-md text-title-md mt-2">Graphic Design</h4>
+              <p class="text-sm text-on-surface-variant">Logos, banners, social media visuals</p>
+            </div>
+            <div class="tonal-layer-1 p-lg rounded-xl text-center tonal-layer-2">
+              <span class="material-symbols-outlined text-primary text-[48px]">campaign</span>
+              <h4 class="font-title-md text-title-md mt-2">Product Promotion</h4>
+              <p class="text-sm text-on-surface-variant">Launch campaigns &amp; influencer outreach</p>
+            </div>
+            <div class="tonal-layer-1 p-lg rounded-xl text-center tonal-layer-2">
+              <span class="material-symbols-outlined text-primary text-[48px]">ads_click</span>
+              <h4 class="font-title-md text-title-md mt-2">Advertisement</h4>
+              <p class="text-sm text-on-surface-variant">PPC, social ads, and creative copy</p>
+            </div>
+            <div class="tonal-layer-1 p-lg rounded-xl text-center tonal-layer-2">
+              <span class="material-symbols-outlined text-primary text-[48px]">developer_mode</span>
+              <h4 class="font-title-md text-title-md mt-2">Web &amp; App Dev</h4>
+              <p class="text-sm text-on-surface-variant">Full‑stack, mobile, and no‑code solutions</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="py-xl md:py-32 bg-primary">
+        <div class="max-w-container-max mx-auto px-gutter text-center">
+          <h2 class="font-display-lg text-display-lg text-on-primary mb-lg">Ready to start earning?</h2>
+          <p class="font-body-lg text-body-lg text-on-primary/80 max-w-xl mx-auto mb-xl">Join 50,000+ professionals worldwide and transform your precision into profit today.</p>
+          <div class="flex flex-col sm:flex-row justify-center gap-md">
+            <button onclick="navigateTo('application')" class="bg-white text-primary px-xl py-md rounded-lg font-title-md text-title-md font-bold hover:bg-surface-container-low transition-colors active:scale-95 transition-transform">Apply Now</button>
+            <button onclick="navigateTo('faq')" class="border border-white/40 text-white px-xl py-md rounded-lg font-title-md text-title-md font-bold hover:bg-white/10 transition-colors active:scale-95 transition-transform">Read FAQ</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ====== HOW IT WORKS PAGE ====== -->
+  <div id="howitworksPage" class="page-section pt-24 pb-16 max-w-container-max mx-auto px-gutter">
+    <h1 class="font-headline-lg text-headline-lg mb-6">How Apextask Works</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
+      <div class="tonal-layer-1 p-xl rounded-xl tonal-layer-2">
+        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4"><span class="material-symbols-outlined text-[32px]">app_registration</span></div>
+        <h3 class="font-title-md text-title-md">1. Create Profile</h3>
+        <p class="text-on-surface-variant">Sign up and complete your professional profile with your skills and experience.</p>
+      </div>
+      <div class="tonal-layer-1 p-xl rounded-xl tonal-layer-2">
+        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4"><span class="material-symbols-outlined text-[32px]">verified</span></div>
+        <h3 class="font-title-md text-title-md">2. Get Verified</h3>
+        <p class="text-on-surface-variant">Pass our skill assessment and background check to become a verified tasker.</p>
+      </div>
+      <div class="tonal-layer-1 p-xl rounded-xl tonal-layer-2">
+        <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4"><span class="material-symbols-outlined text-[32px]">payments</span></div>
+        <h3 class="font-title-md text-title-md">3. Start Earning</h3>
+        <p class="text-on-surface-variant">Browse available tasks, complete them with precision, and get paid weekly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== CATEGORIES PAGE ====== -->
+  <div id="categoriesPage" class="page-section pt-24 pb-16 max-w-container-max mx-auto px-gutter">
+    <h1 class="font-headline-lg text-headline-lg mb-6">Task Categories</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-lg">
+      <div class="tonal-layer-1 p-lg rounded-xl tonal-layer-2"><span class="material-symbols-outlined text-primary text-[40px]">data_usage</span><h4 class="font-title-md">Data Labeling</h4><p class="text-sm text-on-surface-variant">Image, text, and video annotation</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl tonal-layer-2"><span class="material-symbols-outlined text-primary text-[40px]">mic</span><h4 class="font-title-md">Transcription</h4><p class="text-sm text-on-surface-variant">Audio &amp; video to text conversion</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl tonal-layer-2"><span class="material-symbols-outlined text-primary text-[40px]">table_rows</span><h4 class="font-title-md">Data Entry</h4><p class="text-sm text-on-surface-variant">Database and spreadsheet management</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl tonal-layer-2"><span class="material-symbols-outlined text-primary text-[40px]">people</span><h4 class="font-title-md">User Research</h4><p class="text-sm text-on-surface-variant">Surveys, interviews, and feedback</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl tonal-layer-2"><span class="material-symbols-outlined text-primary text-[40px]">design_services</span><h4 class="font-title-md">Graphic Design</h4><p class="text-sm text-on-surface-variant">Visual content creation</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl tonal-layer-2"><span class="material-symbols-outlined text-primary text-[40px]">campaign</span><h4 class="font-title-md">Marketing</h4><p class="text-sm text-on-surface-variant">Promotion and brand strategy</p></div>
+    </div>
+  </div>
+
+  <!-- ====== SERVICES PAGE ====== -->
+  <div id="servicesPage" class="page-section pt-24 pb-16 max-w-container-max mx-auto px-gutter">
+    <h1 class="font-headline-lg text-headline-lg mb-6">Our Services</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-lg">
+      <div class="tonal-layer-1 p-lg rounded-xl tonal-layer-2"><span class="material-symbols-outlined text-primary text-[40px]">design_services</span><h4 class="font-title-md">Graphic Design</h4><p class="text-sm text-on-surface-variant">Logos, branding, social media graphics, and marketing materials</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl tonal-layer-2"><span class="material-symbols-outlined text-primary text-[40px]">campaign</span><h4 class="font-title-md">Product Promotion</h4><p class="text-sm text-on-surface-variant">Launch campaigns, influencer marketing, and product showcases</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl tonal-layer-2"><span class="material-symbols-outlined text-primary text-[40px]">ads_click</span><h4 class="font-title-md">Advertisement</h4><p class="text-sm text-on-surface-variant">PPC campaigns, social media ads, and creative copywriting</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl tonal-layer-2"><span class="material-symbols-outlined text-primary text-[40px]">developer_mode</span><h4 class="font-title-md">Web &amp; App Development</h4><p class="text-sm text-on-surface-variant">Full-stack, mobile apps, no-code solutions, and API integrations</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl tonal-layer-2"><span class="material-symbols-outlined text-primary text-[40px]">content_copy</span><h4 class="font-title-md">Content Writing</h4><p class="text-sm text-on-surface-variant">Blog posts, articles, copywriting, and SEO content</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl tonal-layer-2"><span class="material-symbols-outlined text-primary text-[40px]">video_library</span><h4 class="font-title-md">Video Production</h4><p class="text-sm text-on-surface-variant">Editing, animation, and promotional videos</p></div>
+    </div>
+  </div>
+
+  <!-- ====== SKILLS PAGE ====== -->
+  <div id="skillsPage" class="page-section pt-24 pb-16 max-w-container-max mx-auto px-gutter">
+    <h1 class="font-headline-lg text-headline-lg mb-6">Your Expertise</h1>
+    <p class="text-on-surface-variant mb-6">Select your skills or add custom ones not listed.</p>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      <label class="flex items-center gap-2 p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low"><input type="checkbox" class="w-4 h-4 text-primary"/> Graphic Design</label>
+      <label class="flex items-center gap-2 p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low"><input type="checkbox" class="w-4 h-4 text-primary"/> Web Development</label>
+      <label class="flex items-center gap-2 p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low"><input type="checkbox" class="w-4 h-4 text-primary"/> Content Writing</label>
+      <label class="flex items-center gap-2 p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low"><input type="checkbox" class="w-4 h-4 text-primary"/> Marketing</label>
+      <label class="flex items-center gap-2 p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low"><input type="checkbox" class="w-4 h-4 text-primary"/> Data Analysis</label>
+      <label class="flex items-center gap-2 p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low"><input type="checkbox" class="w-4 h-4 text-primary"/> Video Editing</label>
+      <label class="flex items-center gap-2 p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low"><input type="checkbox" class="w-4 h-4 text-primary"/> Photography</label>
+      <label class="flex items-center gap-2 p-3 border border-outline-variant rounded-lg cursor-pointer hover:bg-surface-container-low"><input type="checkbox" class="w-4 h-4 text-primary"/> Project Management</label>
+    </div>
+    <div class="flex gap-3">
+      <input type="text" placeholder="Add custom skill..." class="flex-1 px-md py-sm rounded-lg border border-outline-variant bg-white focus:ring-2 focus:ring-primary focus:border-primary outline-none"/>
+      <button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md">Add Skill</button>
+    </div>
+  </div>
+
+  <!-- ====== FAQ PAGE ====== -->
+  <div id="faqPage" class="page-section pt-24 pb-16 max-w-container-max mx-auto px-gutter">
+    <h1 class="font-headline-lg text-headline-lg mb-6">Frequently Asked Questions</h1>
+    <div class="space-y-4 max-w-3xl">
+      <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">How long does verification take?</h4><p class="text-on-surface-variant">Typically 24-48 hours after submitting all required documents.</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">How do I get paid?</h4><p class="text-on-surface-variant">Weekly payouts via bank transfer or PayPal, depending on your preference.</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">What types of tasks are available?</h4><p class="text-on-surface-variant">Data labeling, transcription, design, development, marketing, and more.</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">Is there a fee to apply?</h4><p class="text-on-surface-variant">Yes, a one-time application fee starting at $19 to verify your identity and skills.</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">Can I work from anywhere?</h4><p class="text-on-surface-variant">Yes! Apextask is fully remote. You can work from anywhere in the world.</p></div>
+    </div>
+  </div>
+
+  <!-- ====== APPLICATION FORM ====== -->
+  <div id="applicationPage" class="page-section pt-24 pb-32 min-h-screen max-w-container-max mx-auto px-gutter">
+    <div class="mb-xl text-center md:text-left">
+      <button onclick="navigateTo('landing')" class="text-primary font-bold flex items-center gap-xs mb-4 hover:underline">
+        <span class="material-symbols-outlined">arrow_back</span> Back to Home
+      </button>
+      <h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-background mb-base">Become a Tasker</h1>
+      <p class="text-on-surface-variant font-body-lg text-body-lg max-w-2xl">Complete the steps below to verify your profile, pay the application fee, and start earning.</p>
+    </div>
+
+    <div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden mb-xl">
+      <div class="bg-surface-container-low h-1.5 w-full">
+        <div class="progress-bar-fill h-full bg-primary" id="progressBar" style="width: 25%;"></div>
+      </div>
+      <div class="p-lg md:p-xl">
+        <div class="flex justify-between items-center mb-lg">
+          <div id="stepIndicator">
+            <span class="text-primary font-bold font-label-md text-label-md">STEP 1 OF 4</span>
+            <h2 class="font-title-md text-title-md text-on-surface" id="stepTitle">Personal Information</h2>
+          </div>
+        </div>
+
+        <form id="applicationForm" novalidate>
+          <!-- Step 1: Personal Info -->
+          <div class="step-transition active-step" id="step1">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+              <div class="space-y-base">
+                <label class="font-label-md text-label-md text-on-surface-variant block">Full Name *</label>
+                <input id="fullName" class="w-full px-md py-sm rounded-lg border border-outline-variant bg-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="e.g. John Smith" type="text" required/>
+              </div>
+              <div class="space-y-base">
+                <label class="font-label-md text-label-md text-on-surface-variant block">Email Address *</label>
+                <input id="email" class="w-full px-md py-sm rounded-lg border border-outline-variant bg-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="john@example.com" type="email" required/>
+              </div>
+              <div class="space-y-base">
+                <label class="font-label-md text-label-md text-on-surface-variant block">Phone Number *</label>
+                <input id="phone" class="w-full px-md py-sm rounded-lg border border-outline-variant bg-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="+1 (555) 000-0000" type="tel" required/>
+              </div>
+              <div class="space-y-base">
+                <label class="font-label-md text-label-md text-on-surface-variant block">Location *</label>
+                <input id="location" class="w-full px-md py-sm rounded-lg border border-outline-variant bg-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="City, State" type="text" required/>
+              </div>
+            </div>
+            <!-- <div class="mt-lg">
+              <label class="font-label-md text-label-md text-on-surface-variant block mb-base">Profile Photo</label>
+              <div class="flex items-center gap-lg">
+                <div class="w-24 h-24 rounded-full bg-surface-container-high flex items-center justify-center border-2 border-dashed border-outline-variant">
+                  <span class="material-symbols-outlined text-outline text-[40px]">add_a_photo</span>
+                </div>
+                <button class="text-primary font-bold font-label-md text-label-md px-md py-sm border border-primary rounded-full hover:bg-surface-container-low transition-colors" type="button">Upload Image</button>
+              </div>
+            </div> -->
+          </div>
+
+          <!-- Step 2: Skills -->
+          <div class="step-transition hidden-step" id="step2">
+            <div class="space-y-xl">
+              <div class="space-y-base">
+                <label class="font-label-md text-label-md text-on-surface-variant block">Select Your Expertise *</label>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-base">
+                  <label class="flex flex-col items-center p-md border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-all group">
+                    <input class="hidden peer" type="checkbox" name="expertise" value="repairs"/>
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[32px] mb-xs">home_repair_service</span>
+                    <span class="font-label-md text-label-md text-on-surface">Repairs</span>
+                    <div class="mt-xs opacity-0 peer-checked:opacity-100 transition-opacity">
+                      <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                  </label>
+                  <label class="flex flex-col items-center p-md border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-all group">
+                    <input class="hidden peer" type="checkbox" name="expertise" value="moving"/>
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[32px] mb-xs">local_shipping</span>
+                    <span class="font-label-md text-label-md text-on-surface">Moving</span>
+                    <div class="mt-xs opacity-0 peer-checked:opacity-100 transition-opacity">
+                      <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                  </label>
+                  <label class="flex flex-col items-center p-md border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-all group">
+                    <input class="hidden peer" type="checkbox" name="expertise" value="cleaning"/>
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[32px] mb-xs">cleaning_services</span>
+                    <span class="font-label-md text-label-md text-on-surface">Cleaning</span>
+                    <div class="mt-xs opacity-0 peer-checked:opacity-100 transition-opacity">
+                      <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                  </label>
+                  <label class="flex flex-col items-center p-md border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-all group">
+                    <input class="hidden peer" type="checkbox" name="expertise" value="gardening"/>
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[32px] mb-xs">yard</span>
+                    <span class="font-label-md text-label-md text-on-surface">Gardening</span>
+                    <div class="mt-xs opacity-0 peer-checked:opacity-100 transition-opacity">
+                      <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                  </label>
+                  <label class="flex flex-col items-center p-md border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-all group">
+                    <input class="hidden peer" type="checkbox" name="expertise" value="design"/>
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[32px] mb-xs">design_services</span>
+                    <span class="font-label-md text-label-md text-on-surface">Graphic Design</span>
+                    <div class="mt-xs opacity-0 peer-checked:opacity-100 transition-opacity">
+                      <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                  </label>
+                  <label class="flex flex-col items-center p-md border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-all group">
+                    <input class="hidden peer" type="checkbox" name="expertise" value="marketing"/>
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[32px] mb-xs">campaign</span>
+                    <span class="font-label-md text-label-md text-on-surface">Marketing</span>
+                    <div class="mt-xs opacity-0 peer-checked:opacity-100 transition-opacity">
+                      <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                  </label>
+                  <label class="flex flex-col items-center p-md border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-all group">
+                    <input class="hidden peer" type="checkbox" name="expertise" value="advertising"/>
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[32px] mb-xs">ads_click</span>
+                    <span class="font-label-md text-label-md text-on-surface">Advertising</span>
+                    <div class="mt-xs opacity-0 peer-checked:opacity-100 transition-opacity">
+                      <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                  </label>
+                  <label class="flex flex-col items-center p-md border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-all group">
+                    <input class="hidden peer" type="checkbox" name="expertise" value="development"/>
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[32px] mb-xs">developer_mode</span>
+                    <span class="font-label-md text-label-md text-on-surface">Development</span>
+                    <div class="mt-xs opacity-0 peer-checked:opacity-100 transition-opacity">
+                      <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                  </label>
+                  <label class="flex flex-col items-center p-md border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-all group">
+                    <input class="hidden peer" type="checkbox" name="expertise" value="writing"/>
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[32px] mb-xs">content_copy</span>
+                    <span class="font-label-md text-label-md text-on-surface">Content Writing</span>
+                    <div class="mt-xs opacity-0 peer-checked:opacity-100 transition-opacity">
+                      <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                  </label>
+                  <label class="flex flex-col items-center p-md border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-all group">
+                    <input class="hidden peer" type="checkbox" name="expertise" value="video"/>
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[32px] mb-xs">video_library</span>
+                    <span class="font-label-md text-label-md text-on-surface">Video Editing</span>
+                    <div class="mt-xs opacity-0 peer-checked:opacity-100 transition-opacity">
+                      <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                  </label>
+                  <label class="flex flex-col items-center p-md border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-all group">
+                    <input class="hidden peer" type="checkbox" name="expertise" value="data"/>
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[32px] mb-xs">data_usage</span>
+                    <span class="font-label-md text-label-md text-on-surface">Data Analysis</span>
+                    <div class="mt-xs opacity-0 peer-checked:opacity-100 transition-opacity">
+                      <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                  </label>
+                  <label class="flex flex-col items-center p-md border border-outline-variant rounded-xl cursor-pointer hover:bg-surface-container-low transition-all group">
+                    <input class="hidden peer" type="checkbox" name="expertise" value="project"/>
+                    <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors text-[32px] mb-xs">assignment</span>
+                    <span class="font-label-md text-label-md text-on-surface">Project Mgmt</span>
+                    <div class="mt-xs opacity-0 peer-checked:opacity-100 transition-opacity">
+                      <span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                  </label>
+                </div>
+                <div class="mt-4 flex gap-3">
+                  <input type="text" id="customSkill" placeholder="Add custom skill..." class="flex-1 px-md py-sm rounded-lg border border-outline-variant bg-white focus:ring-2 focus:ring-primary focus:border-primary outline-none"/>
+                  <button type="button" onclick="addCustomSkill()" class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md">Add</button>
+                </div>
+                <div id="customSkillsContainer" class="flex flex-wrap gap-2 mt-2"></div>
+              </div>
+              <div class="space-y-base">
+                <label class="font-label-md text-label-md text-on-surface-variant block">Experience Summary *</label>
+                <textarea id="experience" class="w-full px-md py-sm rounded-lg border border-outline-variant bg-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="Briefly describe your professional background..." rows="4" required></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Availability -->
+          <div class="step-transition hidden-step" id="step3">
+            <div class="space-y-lg">
+              <div class="p-lg bg-surface-container-low rounded-xl">
+                <h3 class="font-title-md text-title-md mb-md flex items-center gap-base">
+                  <span class="material-symbols-outlined text-primary">calendar_month</span> Weekly Schedule *
+                </h3>
+                <div class="grid grid-cols-7 gap-xs">
+                  <button type="button" class="day-btn flex flex-col items-center p-base bg-white border border-outline-variant rounded-lg hover:border-primary transition-colors" data-day="Mon">Mon</button>
+                  <button type="button" class="day-btn flex flex-col items-center p-base bg-white border border-outline-variant rounded-lg hover:border-primary transition-colors" data-day="Tue">Tue</button>
+                  <button type="button" class="day-btn flex flex-col items-center p-base bg-primary text-on-primary border border-primary rounded-lg" data-day="Wed">Wed</button>
+                  <button type="button" class="day-btn flex flex-col items-center p-base bg-primary text-on-primary border border-primary rounded-lg" data-day="Thu">Thu</button>
+                  <button type="button" class="day-btn flex flex-col items-center p-base bg-primary text-on-primary border border-primary rounded-lg" data-day="Fri">Fri</button>
+                  <button type="button" class="day-btn flex flex-col items-center p-base bg-white border border-outline-variant rounded-lg hover:border-primary transition-colors" data-day="Sat">Sat</button>
+                  <button type="button" class="day-btn flex flex-col items-center p-base bg-white border border-outline-variant rounded-lg hover:border-primary transition-colors" data-day="Sun">Sun</button>
+                </div>
+                <input type="hidden" id="selectedDays" value="Wed,Thu,Fri"/>
+              </div>
+              <div class="space-y-base">
+                <label class="font-label-md text-label-md text-on-surface-variant block">Preferred Working Hours *</label>
+                <div class="flex items-center gap-md">
+                  <select id="startHour" class="flex-1 px-md py-sm rounded-lg border border-outline-variant bg-white outline-none" required>
+                    <option value="8:00 AM">8:00 AM</option>
+                    <option value="9:00 AM" selected>9:00 AM</option>
+                    <option value="10:00 AM">10:00 AM</option>
+                  </select>
+                  <span class="text-outline">to</span>
+                  <select id="endHour" class="flex-1 px-md py-sm rounded-lg border border-outline-variant bg-white outline-none" required>
+                    <option value="5:00 PM">5:00 PM</option>
+                    <option value="6:00 PM" selected>6:00 PM</option>
+                    <option value="7:00 PM">7:00 PM</option>
+                  </select>
+                </div>
+              </div>
+              <div class="space-y-base">
+                <label class="flex items-center gap-md cursor-pointer group">
+                  <input id="emergency" class="peer w-5 h-5 border-outline-variant rounded focus:ring-primary text-primary transition-all" type="checkbox"/>
+                  <span class="font-body-md text-body-md text-on-surface">Available for emergency/same-day tasks</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4: PAYMENT with Processing State -->
+          <div class="step-transition hidden-step" id="step4">
+            <div class="space-y-lg">
+              <div class="bg-surface-container-low rounded-xl p-lg">
+                <h3 class="font-title-md text-title-md mb-md flex items-center gap-base">
+                  <span class="material-symbols-outlined text-primary">payments</span> Application Fee
+                </h3>
+                <p class="text-on-surface-variant mb-md">Choose your plan. Pay via bank transfer.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
+                  <div class="payment-card selected border-2 border-primary rounded-xl p-lg cursor-pointer" id="plan-basic" onclick="selectPlan('basic')">
+                    <div class="flex items-center justify-between">
+                      <span class="font-bold text-title-md">Basic</span>
+                      <span class="material-symbols-outlined text-primary" id="check-basic" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                    </div>
+                    <p class="text-2xl font-bold mt-md">$70<span class="text-sm font-normal text-on-surface-variant">/once</span></p>
+                    <ul class="text-sm space-y-1 mt-sm text-on-surface-variant">
+                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> 30-day access</li>
+                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> Basic task listing</li>
+                    </ul>
+                  </div>
+                  <div class="payment-card border-2 border-outline-variant rounded-xl p-lg cursor-pointer" id="plan-premium" onclick="selectPlan('premium')">
+                    <div class="flex items-center justify-between">
+                      <span class="font-bold text-title-md">Premium</span>
+                      <span class="material-symbols-outlined text-outline" id="check-premium">check_circle</span>
+                    </div>
+                    <p class="text-2xl font-bold mt-md">$200<span class="text-sm font-normal text-on-surface-variant">/once</span></p>
+                    <ul class="text-sm space-y-1 mt-sm text-on-surface-variant">
+                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> Unlimited access</li>
+                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> Priority task feed</li>
+                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> Verified badge</li>
+                    </ul>
+                  </div>
+                  <div class="payment-card border-2 border-outline-variant rounded-xl p-lg cursor-pointer" id="plan-professional" onclick="selectPlan('professional')">
+                    <div class="flex items-center justify-between">
+                      <span class="font-bold text-title-md">Pro</span>
+                      <span class="material-symbols-outlined text-outline" id="check-professional">check_circle</span>
+                    </div>
+                    <p class="text-2xl font-bold mt-md">$500<span class="text-sm font-normal text-on-surface-variant">/once</span></p>
+                    <ul class="text-sm space-y-1 mt-sm text-on-surface-variant">
+                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> Lifetime access</li>
+                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> Premium task insights</li>
+                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> 1-on-1 mentorship</li>
+                    </ul>
+                  </div>
+                </div>
+                <!-- Bank Transfer Details (always visible) -->
+                <div class="mt-6 p-4 bg-primary/5 rounded-xl border border-primary/20">
+                  <h4 class="font-title-md text-title-md flex items-center gap-2"><span class="material-symbols-outlined text-primary">account_balance</span> Bank Transfer Details</h4>
+                  <p class="text-sm text-on-surface-variant mt-2">Make payment to the account below and include your email as reference.</p>
+                  <div class="grid grid-cols-2 gap-2 mt-3 text-sm">
+                    <span class="font-semibold">Bank:</span><span>First Global Bank</span>
+                    <span class="font-semibold">Account Name:</span><span>Apextask Services Ltd</span> 
+                    <span class="font-semibold">Account Number:</span><span>1234567890</span>
+                    <span class="font-semibold">Sort Code:</span><span>01-02-03</span>
+                  </div>
+                </div>
+                <div class="mt-md p-md bg-surface-container-high rounded-lg">
+                  <label class="flex items-center gap-md cursor-pointer">
+                    <input id="paymentTerms" class="peer w-5 h-5 border-outline-variant rounded focus:ring-primary text-primary transition-all" type="checkbox" required/>
+                    <span class="font-body-md text-body-md text-on-surface">I confirm I have made the transfer and agree to the <a class="text-primary hover:underline" href="#">terms</a>.</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <!-- Navigation -->
+        <div class="mt-xl flex justify-between pt-lg border-t border-outline-variant">
+          <button class="flex items-center gap-xs px-lg py-sm font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors invisible" id="prevBtn" onclick="prevStep()">
+            <span class="material-symbols-outlined">arrow_back</span> Back
+          </button>
+          <button class="flex items-center gap-xs bg-primary text-on-primary px-xl py-sm rounded-full font-label-md text-label-md shadow-md active:scale-95 transition-all" id="nextBtn" onclick="nextStep()">
+            Next <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== SUCCESS PAGE (Application Received) ====== -->
+  <div id="successPage" class="page-section pt-16 pb-24 bg-mesh-gradient flex items-center justify-center min-h-screen">
+    <div class="max-w-container-max mx-auto px-gutter w-full py-xl flex flex-col items-center">
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-lg w-full max-w-4xl">
+        <div class="md:col-span-8 bg-surface-container-lowest rounded-[24px] p-xl shadow-sm border border-outline-variant flex flex-col items-center text-center">
+          <div class="w-24 h-24 bg-secondary-container rounded-full flex items-center justify-center mb-lg animate-success shadow-lg shadow-secondary/20">
+            <span class="material-symbols-outlined text-[48px] text-on-secondary-container" style="font-variation-settings: 'wght' 700;">check</span>
+          </div>
+          <h1 class="font-display-lg text-display-lg mb-base text-primary">Application Submitted!</h1>
+          <p class="font-body-lg text-body-lg text-on-surface-variant max-w-md mx-auto">Your payment is being verified. Your professional profile will be audited within <span class="font-bold text-primary">24-48 hours</span>.</p>
+          <div class="mt-xl flex flex-col sm:flex-row gap-md w-full sm:w-auto">
+            <button onclick="navigateTo('landing')" class="bg-primary text-on-primary px-xl py-md rounded-xl font-title-md hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-base shadow-md">
+              <span>Go Home</span>
+            </button>
+            <button onclick="navigateTo('categories')" class="border-2 border-primary text-primary px-xl py-md rounded-xl font-title-md hover:bg-primary/5 active:scale-95 transition-all flex items-center justify-center gap-base">
+              <span>Explore Tasks</span>
+            </button>
+          </div>
+        </div>
+        <div class="md:col-span-4 flex flex-col gap-lg">
+          <div class="bg-surface-container-high rounded-[24px] p-lg border border-outline-variant/30">
+            <h3 class="font-title-md text-title-md mb-md text-on-surface flex items-center gap-xs">
+              <span class="material-symbols-outlined text-secondary">info</span> Next Steps
+            </h3>
+            <ul class="space-y-md">
+              <li class="flex gap-sm"><div class="w-6 h-6 rounded-full bg-primary text-on-primary flex items-center justify-center text-[10px] font-bold flex-shrink-0">1</div><p class="font-label-md text-label-md text-on-surface-variant">Payment verification in progress.</p></li>
+              <li class="flex gap-sm"><div class="w-6 h-6 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center text-[10px] font-bold flex-shrink-0">2</div><p class="font-label-md text-label-md text-on-surface-variant">Background check and skill review.</p></li>
+              <li class="flex gap-sm"><div class="w-6 h-6 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center text-[10px] font-bold flex-shrink-0">3</div><p class="font-label-md text-label-md text-on-surface-variant">Welcome email with platform orientation.</p></li>
+            </ul>
+          </div>
+          <div class="h-full min-h-[200px] rounded-[24px] overflow-hidden shadow-sm relative group">
+            <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-10"></div>
+            <div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB-nYmiAG2hcRP0FWo4miVsUrBK08jQYgP_lbNqr9L98aDWqPkeCkpUZ0Tat-zYFmd3fK1ek1RPP_8iBnWa7tjBW0MK7tjyGELEIuMtgP5Fu1APxvwBtTr9wum8vQw_nOlYMpvpTLq-N93yrZ5T15vUaTka9OKNyPHyyp4gk9NGpeOe-IR0wJBLWq9J2JtnlCJNEXmjrYQvZiVCmjDh95jgklaYitTNkVghp1kLORy2YeChUdkW-Ut_og')"></div>
+            <div class="absolute bottom-md left-md z-20">
+              <span class="bg-secondary-container text-on-secondary-container px-sm py-xs rounded-full font-label-sm uppercase tracking-wider">Professional Path</span>
+              <p class="text-white font-title-md mt-xs">Unlock Premium Tasks</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-xl text-center">
+        <p class="font-label-md text-label-md text-on-surface-variant">Questions? <a class="text-primary font-bold hover:underline" href="#">Contact Support</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="bg-surface-container-low border-t border-outline-variant py-xl mt-auto">
+    <div class="flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto px-gutter gap-base">
+      <div class="flex items-center gap-base">
+        <span class="font-title-md text-title-md font-bold text-primary">Apextask</span>
+        <p class="font-label-md text-label-md text-on-surface opacity-80">© 2024 Apextask Professional Services.</p>
+      </div>
+      <div class="flex flex-wrap gap-lg">
+        <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-opacity cursor-pointer" onclick="navigateTo('faq')">FAQ</a>
+        <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-opacity cursor-pointer" onclick="navigateTo('howitworks')">How It Works</a>
+        <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-opacity cursor-pointer" onclick="navigateTo('services')">Services</a>
+        <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-opacity cursor-pointer" onclick="navigateTo('skills')">Skills</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====== BOTTOM NAV (Mobile) ====== -->
+  <nav class="fixed bottom-0 w-full z-40 md:hidden bg-surface-container shadow-lg">
+    <div class="flex justify-around items-center px-4 py-2">
+      <a class="flex flex-col items-center justify-center text-on-surface-variant" onclick="navigateTo('landing')"><span class="material-symbols-outlined">home</span><span class="font-label-sm">Home</span></a>
+      <a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1" onclick="navigateTo('application')"><span class="material-symbols-outlined">assignment</span><span class="font-label-sm">Apply</span></a>
+      <a class="flex flex-col items-center justify-center text-on-surface-variant" onclick="navigateTo('skills')"><span class="material-symbols-outlined">psychology</span><span class="font-label-sm">Skills</span></a>
+      <a class="flex flex-col items-center justify-center text-on-surface-variant" onclick="navigateTo('faq')"><span class="material-symbols-outlined">help</span><span class="font-label-sm">FAQ</span></a>
+    </div>
+  </nav>
+
+  <script>
+    // ----- NAVIGATION -----
+    function navigateTo(page) {
+      document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+      const map = {
+        'landing': 'landingPage',
+        'howitworks': 'howitworksPage',
+        'categories': 'categoriesPage',
+        'services': 'servicesPage',
+        'skills': 'skillsPage',
+        'faq': 'faqPage',
+        'application': 'applicationPage',
+        'success': 'successPage'
+      };
+      const target = document.getElementById(map[page]);
+      if (target) target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('mobileMenu').classList.remove('open');
+      document.getElementById('mobileOverlay').classList.remove('open');
+    }
+
+    // ----- MOBILE MENU -----
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+      document.getElementById('mobileOverlay').classList.toggle('open');
+    }
+
+    // ----- CUSTOM SKILLS -----
+    let customSkills = [];
+    function addCustomSkill() {
+      const input = document.getElementById('customSkill');
+      const val = input.value.trim();
+      if (val && !customSkills.includes(val)) {
+        customSkills.push(val);
+        renderCustomSkills();
+        input.value = '';
+      }
+    }
+    function renderCustomSkills() {
+      const container = document.getElementById('customSkillsContainer');
+      container.innerHTML = customSkills.map(s => 
+        `<span class="px-md py-xs bg-secondary-container text-on-secondary-container rounded-full font-label-sm flex items-center gap-1">${s} <span class="material-symbols-outlined text-sm cursor-pointer" onclick="removeCustomSkill('${s}')">close</span></span>`
+      ).join('');
+    }
+    function removeCustomSkill(skill) {
+      customSkills = customSkills.filter(s => s !== skill);
+      renderCustomSkills();
+    }
+
+    // ----- STEPPER -----
+    let currentStep = 1;
+    const totalSteps = 4;
+    const titles = ["Personal Information", "Skills & Experience", "Availability", "Payment"];
+    let isProcessing = false;
+
+    function validateStep(step) {
+      if (step === 1) {
+        const name = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const loc = document.getElementById('location').value.trim();
+        if (!name || !email || !phone || !loc) {
+          alert('Please fill in all required fields: Full Name, Email, Phone, Location.');
+          return false;
+        }
+        if (!email.includes('@')) { alert('Please enter a valid email.'); return false; }
+        return true;
+      }
+      if (step === 2) {
+        const checked = document.querySelectorAll('input[name="expertise"]:checked');
+        const exp = document.getElementById('experience').value.trim();
+        if (checked.length === 0 && customSkills.length === 0) {
+          alert('Please select at least one skill or add a custom skill.');
+          return false;
+        }
+        if (!exp) { alert('Please describe your experience.'); return false; }
+        return true;
+      }
+      if (step === 3) {
+        const days = document.getElementById('selectedDays').value;
+        if (!days || days.length === 0) { alert('Please select at least one day for your schedule.'); return false; }
+        return true;
+      }
+      if (step === 4) {
+        if (!document.getElementById('paymentTerms').checked) {
+          alert('Please confirm you have made the transfer and agree to the terms.');
+          return false;
+        }
+        return true;
+      }
+      return true;
+    }
+
+    function updateUI() {
+      const progress = (currentStep / totalSteps) * 100;
+      document.getElementById('progressBar').style.width = `${progress}%`;
+      document.getElementById('stepIndicator').innerHTML = `
+        <span class="text-primary font-bold font-label-md text-label-md">STEP ${currentStep} OF ${totalSteps}</span>
+        <h2 class="font-title-md text-title-md text-on-surface">${titles[currentStep-1]}</h2>
+      `;
+      for (let i = 1; i <= totalSteps; i++) {
+        const el = document.getElementById(`step${i}`);
+        if (i === currentStep) {
+          el.classList.remove('hidden-step');
+          el.classList.add('active-step');
+        } else {
+          el.classList.add('hidden-step');
+          el.classList.remove('active-step');
+        }
+      }
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      if (currentStep === 1) prevBtn.classList.add('invisible');
+      else prevBtn.classList.remove('invisible');
+
+      if (currentStep === totalSteps) {
+        nextBtn.innerHTML = `Submit Application <span class="material-symbols-outlined">send</span>`;
+        nextBtn.classList.replace('bg-primary', 'bg-secondary');
+      } else {
+        nextBtn.innerHTML = `Next <span class="material-symbols-outlined">arrow_forward</span>`;
+        nextBtn.classList.replace('bg-secondary', 'bg-primary');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextStep() {
+      if (isProcessing) return;
+      if (!validateStep(currentStep)) return;
+      
+      if (currentStep < totalSteps) {
+        currentStep++;
+        updateUI();
+      } else {
+        // Payment step - show processing state
+        const nextBtn = document.getElementById('nextBtn');
+        isProcessing = true;
+        nextBtn.disabled = true;
+        nextBtn.innerHTML = `<span class="flex items-center gap-2"><span class="animate-spin-slow inline-block">⟳</span> Processing Payment...</span>`;
+        nextBtn.classList.add('opacity-70', 'cursor-not-allowed');
+        
+        // Simulate payment processing (bank transfer confirmation)
+        setTimeout(() => {
+          isProcessing = false;
+          nextBtn.disabled = false;
+          nextBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+          // Show success page
+          navigateTo('success');
+        }, 10000);
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        currentStep--;
+        updateUI();
+      }
+    }
+
+    // ----- PAYMENT PLAN -----
+    function selectPlan(plan) {
+      const cards = ['basic', 'premium', 'professional'];
+      cards.forEach(id => {
+        const card = document.getElementById(`plan-${id}`);
+        const check = document.getElementById(`check-${id}`);
+        if (id === plan) {
+          card.classList.add('selected');
+          check.classList.remove('text-outline');
+          check.classList.add('text-primary');
+          check.style.fontVariationSettings = "'FILL' 1";
+        } else {
+          card.classList.remove('selected');
+          check.classList.remove('text-primary');
+          check.classList.add('text-outline');
+          check.style.fontVariationSettings = "'FILL' 0";
+        }
+      });
+    }
+
+    // ----- DAY SELECTION -----
+    document.querySelectorAll('.day-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        this.classList.toggle('bg-primary');
+        this.classList.toggle('text-on-primary');
+        this.classList.toggle('bg-white');
+        this.classList.toggle('text-on-surface');
+        const selected = [];
+        document.querySelectorAll('.day-btn.bg-primary').forEach(b => selected.push(b.dataset.day));
+        document.getElementById('selectedDays').value = selected.join(',');
+      });
+    });
+
+    // ----- INIT -----
+    updateUI();
+    selectPlan('basic');
+
+    document.getElementById('customSkill').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); addCustomSkill(); }
+    });
+  </script>
+</body>
+</html>
