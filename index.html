@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>Apextask | Complete Application</title>
+  <title>ApexTask | Complete Application</title>
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="./style.css">
+  
   <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
@@ -103,6 +103,266 @@
     }
   </script>
   
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .tonal-layer-1 {
+      background-color: #ffffff;
+      border: 1px solid #ebecf0;
+    }
+    .tonal-layer-2:hover {
+      box-shadow: 0px 4px 12px rgba(9, 30, 66, 0.08);
+      transform: translateY(-2px);
+      transition: all 0.3s ease;
+    }
+    .step-transition {
+      transition: all 0.3s ease-in-out;
+    }
+    .hidden-step {
+      display: none;
+      opacity: 0;
+      transform: translateX(10px);
+    }
+    .active-step {
+      display: block;
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .progress-bar-fill {
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    body {
+      background-color: #f9f9ff;
+      color: #091c35;
+    }
+    .payment-card {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .payment-card:hover {
+      border-color: #003d9b;
+      background-color: #f0f3ff;
+    }
+    .payment-card.selected {
+      border-color: #003d9b;
+      background-color: #dae2ff;
+      box-shadow: 0 0 0 2px #003d9b22;
+    }
+    .payment-card.popular {
+      border-color: #f59e0b;
+      background-color: #fffbeb;
+      position: relative;
+    }
+    .payment-card.popular .popular-badge {
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      background: #f59e0b;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .payment-method-btn {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .payment-method-btn.selected {
+      border-color: #003d9b;
+      background-color: rgba(0, 61, 155, 0.05);
+      border-width: 2px;
+    }
+    .payment-method-content.hidden {
+      display: none;
+    }
+    .mobile-menu {
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .mobile-menu.open {
+      transform: translateX(0);
+    }
+    .mobile-overlay {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .mobile-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .page-section {
+      display: none !important;
+    }
+    .page-section.active {
+      display: block !important;
+    }
+    @keyframes success-pop {
+      0% { transform: scale(0.8); opacity: 0; }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-success {
+      animation: success-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+    .bg-mesh-gradient {
+      background-color: #f9f9ff;
+      background-image: radial-gradient(at 0% 0%, hsla(217, 100%, 95%, 1) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, hsla(158, 80%, 95%, 1) 0px, transparent 50%);
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+      animation: spin 1s linear infinite;
+    }
+    .bank-details {
+      background: linear-gradient(135deg, #f8fafc 0%, #eef2f7 100%);
+      border: 1px solid #d1d9e6;
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .bank-details .label {
+      color: #64748b;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .bank-details .value {
+      color: #0f172a;
+      font-weight: 600;
+      font-size: 15px;
+    }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 24px;
+      max-width: 520px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 32px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+      animation: modalIn 0.3s ease;
+    }
+    @keyframes modalIn {
+      from { transform: scale(0.95) translateY(20px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    .upload-area {
+      border: 2px dashed #d1d5db;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #f9fafb;
+    }
+    .upload-area:hover {
+      border-color: #003d9b;
+      background: #f0f3ff;
+    }
+    .upload-area.dragover {
+      border-color: #003d9b;
+      background: #dae2ff;
+    }
+    .upload-area .icon {
+      font-size: 48px;
+      color: #9ca3af;
+      display: block;
+    }
+    .upload-area .text {
+      color: #6b7280;
+      margin-top: 8px;
+    }
+    .file-preview {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      border-radius: 8px;
+      color: #166534;
+      font-size: 14px;
+      align-items: center;
+      gap: 8px;
+    }
+    .file-preview.show {
+      display: flex;
+    }
+    .payment-account-details {
+      background: #f0f7ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+    .plan-features {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0 0;
+    }
+    .plan-features li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #1e293b;
+      padding: 3px 0;
+    }
+    .plan-features li .check {
+      color: #003d9b;
+      font-weight: bold;
+    }
+    .price-range {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 400;
+      margin-top: 2px;
+    }
+    /* Dashboard styles */
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+    }
+    .status-pending .dot {
+      background: #f59e0b;
+    }
+    .status-verified {
+      background: #d1fae5;
+      color: #065f46;
+      border: 1px solid #6ee7b7;
+    }
+    .status-verified .dot {
+      background: #10b981;
+    }
+    .dashboard-card {
+      transition: all 0.2s ease;
+    }
+    .dashboard-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+    }
+  </style>
 </head>
 <body class="font-body-md text-body-md antialiased min-h-screen flex flex-col">
 
@@ -111,9 +371,8 @@
     <div class="flex justify-between items-center max-w-container-max mx-auto px-gutter h-full">
       <div class="flex items-center gap-base cursor-pointer" onclick="navigateTo('landing')">
         <span class="material-symbols-outlined text-primary text-[32px]">task_alt</span>
-        <span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary md:font-headline-lg md:text-headline-lg">Apextask</span>
+        <span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary md:font-headline-lg md:text-headline-lg">ApexTask</span>
       </div>
-      <!-- Desktop nav -->
       <nav class="hidden md:flex gap-lg items-center">
         <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-md text-label-md cursor-pointer" onclick="navigateTo('landing')">Home</a>
         <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-md text-label-md cursor-pointer" onclick="navigateTo('howitworks')">How it Works</a>
@@ -123,7 +382,7 @@
         <a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200 font-label-md text-label-md cursor-pointer" onclick="navigateTo('faq')">FAQ</a>
       </nav>
       <div class="flex items-center gap-md">
-        <button class="font-label-md text-label-md text-primary font-bold active:scale-95 transition-transform hidden md:block">Sign In</button>
+        <button onclick="navigateTo('signin')" class="font-label-md text-label-md text-primary font-bold active:scale-95 transition-transform hidden md:block">Sign In</button>
         <button onclick="navigateTo('application')" class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md font-bold active:scale-95 transition-transform">Apply Now</button>
         <button id="menuToggle" class="md:hidden text-on-surface-variant" onclick="toggleMobileMenu()">
           <span class="material-symbols-outlined">menu</span>
@@ -146,7 +405,7 @@
       <a class="text-on-surface-variant font-medium hover:text-primary transition-colors cursor-pointer" onclick="navigateTo('skills');toggleMobileMenu()">Skills</a>
       <a class="text-on-surface-variant font-medium hover:text-primary transition-colors cursor-pointer" onclick="navigateTo('faq');toggleMobileMenu()">FAQ</a>
       <hr class="my-2"/>
-      <button class="text-primary font-bold text-left">Sign In</button>
+      <button onclick="navigateTo('signin');toggleMobileMenu()" class="text-primary font-bold text-left">Sign In</button>
       <button onclick="navigateTo('application');toggleMobileMenu()" class="bg-primary text-on-primary px-lg py-sm rounded-lg font-bold text-center">Apply Now</button>
     </nav>
   </div>
@@ -201,11 +460,11 @@
         </div>
       </section>
 
-      <!-- How it Works (preview) -->
+      <!-- How it Works -->
       <section class="py-xl md:py-32 bg-surface">
         <div class="max-w-container-max mx-auto px-gutter">
           <div class="text-center mb-xl">
-            <h2 class="font-headline-lg text-headline-lg text-on-background mb-base">How Apextask Works</h2>
+            <h2 class="font-headline-lg text-headline-lg text-on-background mb-base">How ApexTask Works</h2>
             <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl mx-auto">Our streamlined process ensures that you spend less time searching and more time earning with high-quality task flow.</p>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
@@ -280,9 +539,9 @@
     </main>
   </div>
 
-  <!-- ====== HOW IT WORKS PAGE ====== -->
+  <!-- ====== OTHER PAGES (How it Works, Categories, Services, Skills, FAQ) ====== -->
   <div id="howitworksPage" class="page-section pt-24 pb-16 max-w-container-max mx-auto px-gutter">
-    <h1 class="font-headline-lg text-headline-lg mb-6">How Apextask Works</h1>
+    <h1 class="font-headline-lg text-headline-lg mb-6">How ApexTask Works</h1>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-lg">
       <div class="tonal-layer-1 p-xl rounded-xl tonal-layer-2">
         <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mb-4"><span class="material-symbols-outlined text-[32px]">app_registration</span></div>
@@ -302,7 +561,6 @@
     </div>
   </div>
 
-  <!-- ====== CATEGORIES PAGE ====== -->
   <div id="categoriesPage" class="page-section pt-24 pb-16 max-w-container-max mx-auto px-gutter">
     <h1 class="font-headline-lg text-headline-lg mb-6">Task Categories</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-lg">
@@ -315,7 +573,6 @@
     </div>
   </div>
 
-  <!-- ====== SERVICES PAGE ====== -->
   <div id="servicesPage" class="page-section pt-24 pb-16 max-w-container-max mx-auto px-gutter">
     <h1 class="font-headline-lg text-headline-lg mb-6">Our Services</h1>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-lg">
@@ -328,7 +585,6 @@
     </div>
   </div>
 
-  <!-- ====== SKILLS PAGE ====== -->
   <div id="skillsPage" class="page-section pt-24 pb-16 max-w-container-max mx-auto px-gutter">
     <h1 class="font-headline-lg text-headline-lg mb-6">Your Expertise</h1>
     <p class="text-on-surface-variant mb-6">Select your skills or add custom ones not listed.</p>
@@ -348,15 +604,216 @@
     </div>
   </div>
 
-  <!-- ====== FAQ PAGE ====== -->
   <div id="faqPage" class="page-section pt-24 pb-16 max-w-container-max mx-auto px-gutter">
     <h1 class="font-headline-lg text-headline-lg mb-6">Frequently Asked Questions</h1>
     <div class="space-y-4 max-w-3xl">
       <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">How long does verification take?</h4><p class="text-on-surface-variant">Typically 24-48 hours after submitting all required documents.</p></div>
-      <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">How do I get paid?</h4><p class="text-on-surface-variant">Weekly payouts via bank transfer or PayPal, depending on your preference.</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">How do I get paid?</h4><p class="text-on-surface-variant">Weekly payouts via  PayPal, depending on your preference.</p></div>
       <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">What types of tasks are available?</h4><p class="text-on-surface-variant">Data labeling, transcription, design, development, marketing, and more.</p></div>
-      <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">Is there a fee to apply?</h4><p class="text-on-surface-variant">Yes, a one-time application fee starting at $19 to verify your identity and skills.</p></div>
-      <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">Can I work from anywhere?</h4><p class="text-on-surface-variant">Yes! Apextask is fully remote. You can work from anywhere in the world.</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">Is there a fee to apply?</h4><p class="text-on-surface-variant">Yes, a one-time application fee starting at $70 -$500 to verify your identity and skills.</p></div>
+      <div class="tonal-layer-1 p-lg rounded-xl"><h4 class="font-title-md">Can I work from anywhere?</h4><p class="text-on-surface-variant">Yes! ApexTask is fully remote. You can work from anywhere in the world.</p></div>
+    </div>
+  </div>
+
+  <!-- ====== SIGN IN PAGE ====== -->
+  <div id="signinPage" class="page-section pt-24 pb-16 min-h-screen bg-mesh-gradient flex items-center justify-center">
+    <div class="w-full max-w-md mx-auto px-gutter">
+      <div class="bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant p-8">
+        <div class="text-center mb-8">
+          <div class="flex justify-center mb-4">
+            <span class="material-symbols-outlined text-primary text-5xl">task_alt</span>
+          </div>
+          <h1 class="font-headline-lg text-headline-lg text-on-background">Welcome Back</h1>
+          <p class="text-on-surface-variant text-sm mt-2">Sign in to access your ApexTask dashboard</p>
+        </div>
+
+        <form id="signinForm" onsubmit="handleSignIn(event)">
+          <div class="space-y-4">
+            <div>
+              <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Email Address</label>
+              <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-xl">mail</span>
+                <input type="email" id="signinEmail" placeholder="you@example.com" class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" required/>
+              </div>
+            </div>
+            <div>
+              <label class="font-label-md text-label-md text-on-surface-variant block mb-1">Password</label>
+              <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-xl">lock</span>
+                <input type="password" id="signinPassword" placeholder="••••••••" class="w-full pl-10 pr-4 py-3 rounded-lg border border-outline-variant bg-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" required/>
+              </div>
+            </div>
+            <div class="flex items-center justify-between text-sm">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" class="w-4 h-4 text-primary rounded"/>
+                <span class="text-on-surface-variant">Remember me</span>
+              </label>
+              <a href="#" class="text-primary hover:underline">Forgot password?</a>
+            </div>
+            <button type="submit" class="w-full bg-primary text-on-primary py-3 rounded-lg font-title-md text-title-md font-bold hover:opacity-90 transition-all active:scale-95 shadow-md">
+              Sign In
+            </button>
+          </div>
+        </form>
+
+        <div class="mt-6 text-center">
+          <p class="text-sm text-on-surface-variant">Don't have an account? <a href="#" onclick="navigateTo('application')" class="text-primary font-bold hover:underline">Apply Now</a></p>
+        </div>
+
+        <div class="relative my-6">
+          <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-outline-variant"></div></div>
+          <div class="relative flex justify-center"><span class="bg-surface-container-lowest px-4 text-sm text-outline">Or continue with</span></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <button class="flex items-center justify-center gap-2 py-2 border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors">
+            <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Google
+          </button>
+          <button class="flex items-center justify-center gap-2 py-2 border border-outline-variant rounded-lg hover:bg-surface-container-low transition-colors">
+            <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#0A66C2" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            LinkedIn
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== DASHBOARD PAGE ====== -->
+  <div id="dashboardPage" class="page-section pt-24 pb-16 min-h-screen bg-surface">
+    <div class="max-w-container-max mx-auto px-gutter">
+      <!-- Welcome Header -->
+      <div class="mb-8">
+        <h1 class="font-headline-lg text-headline-lg text-on-background">Dashboard</h1>
+        <p class="text-on-surface-variant">Welcome back, <span id="dashboardUserName" class="font-bold text-primary">John</span>!</p>
+      </div>
+
+      <!-- Status Card -->
+      <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant p-6 md:p-8 mb-8 shadow-sm">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center">
+              <span class="material-symbols-outlined text-3xl text-on-secondary-container">pending</span>
+            </div>
+            <div>
+              <h2 class="font-title-md text-title-md text-on-surface">Awaiting Verification</h2>
+              <p class="text-sm text-on-surface-variant">Your application is being reviewed by our team</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="status-pending px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+              <span class="dot w-2 h-2 rounded-full animate-pulse"></span>
+              Pending Review
+            </span>
+          </div>
+        </div>
+        <div class="mt-4 pt-4 border-t border-outline-variant">
+          <div class="flex flex-col sm:flex-row gap-4 text-sm">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-sm">schedule</span>
+              <span class="text-on-surface-variant">Estimated time: <strong class="text-on-surface">24-48 hours</strong></span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary text-sm">checklist</span>
+              <span class="text-on-surface-variant">Application <strong class="text-on-surface">#APX-2024-001</strong></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 dashboard-card">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary">assignment</span>
+            </div>
+            <div>
+              <p class="text-xs text-on-surface-variant">Total Applications</p>
+              <p class="font-title-md text-title-md">1</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 dashboard-card">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center">
+              <span class="material-symbols-outlined text-yellow-600">pending</span>
+            </div>
+            <div>
+              <p class="text-xs text-on-surface-variant">Pending Tasks</p>
+              <p class="font-title-md text-title-md">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 dashboard-card">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+              <span class="material-symbols-outlined text-green-600">check_circle</span>
+            </div>
+            <div>
+              <p class="text-xs text-on-surface-variant">Completed</p>
+              <p class="font-title-md text-title-md">0</p>
+            </div>
+          </div>
+        </div>
+        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-4 dashboard-card">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+              <span class="material-symbols-outlined text-purple-600">payments</span>
+            </div>
+            <div>
+              <p class="text-xs text-on-surface-variant">Earnings</p>
+              <p class="font-title-md text-title-md">$0.00</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verification Progress -->
+      <div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 mb-8">
+        <h3 class="font-title-md text-title-md mb-4">Verification Progress</h3>
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+              <span class="material-symbols-outlined text-green-600 text-sm">check</span>
+            </div>
+            <div>
+              <p class="font-medium">Application Submitted</p>
+              <p class="text-xs text-on-surface-variant">Step 1 of 3 - Complete</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center animate-pulse">
+              <span class="material-symbols-outlined text-yellow-600 text-sm">pending</span>
+            </div>
+            <div>
+              <p class="font-medium">Payment Verification</p>
+              <p class="text-xs text-on-surface-variant">Step 2 of 3 - In Progress</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 opacity-50">
+            <div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center">
+              <span class="material-symbols-outlined text-outline text-sm">hourglass_empty</span>
+            </div>
+            <div>
+              <p class="font-medium">Profile Review & Approval</p>
+              <p class="text-xs text-on-surface-variant">Step 3 of 3 - Pending</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <button onclick="navigateTo('application')" class="bg-primary text-on-primary p-4 rounded-xl font-medium hover:opacity-90 transition-all flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined">edit</span>
+          Edit Application
+        </button>
+        <button class="bg-surface-container-high text-on-surface p-4 rounded-xl font-medium hover:bg-surface-container transition-all flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined">support</span>
+          Contact Support
+        </button>
+      </div>
     </div>
   </div>
 
@@ -403,15 +860,6 @@
                 <input id="location" class="w-full px-md py-sm rounded-lg border border-outline-variant bg-white focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" placeholder="City, State" type="text" required/>
               </div>
             </div>
-            <!-- <div class="mt-lg">
-              <label class="font-label-md text-label-md text-on-surface-variant block mb-base">Profile Photo</label>
-              <div class="flex items-center gap-lg">
-                <div class="w-24 h-24 rounded-full bg-surface-container-high flex items-center justify-center border-2 border-dashed border-outline-variant">
-                  <span class="material-symbols-outlined text-outline text-[40px]">add_a_photo</span>
-                </div>
-                <button class="text-primary font-bold font-label-md text-label-md px-md py-sm border border-primary rounded-full hover:bg-surface-container-low transition-colors" type="button">Upload Image</button>
-              </div>
-            </div> -->
           </div>
 
           <!-- Step 2: Skills -->
@@ -573,66 +1021,98 @@
             </div>
           </div>
 
-          <!-- Step 4: PAYMENT with Processing State -->
+          <!-- Step 4: PAYMENT with Plan Ranges -->
           <div class="step-transition hidden-step" id="step4">
             <div class="space-y-lg">
               <div class="bg-surface-container-low rounded-xl p-lg">
                 <h3 class="font-title-md text-title-md mb-md flex items-center gap-base">
-                  <span class="material-symbols-outlined text-primary">payments</span> Application Fee
+                  <span class="material-symbols-outlined text-primary">payments</span> Choose Your Plan
                 </h3>
-                <p class="text-on-surface-variant mb-md">Choose your plan. Pay via bank transfer.</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-md">
-                  <div class="payment-card selected border-2 border-primary rounded-xl p-lg cursor-pointer" id="plan-basic" onclick="selectPlan('basic')">
+
+                <!-- Plan Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <!-- Regular Plan -->
+                  <div class="payment-card border-2 border-outline-variant rounded-xl p-4 cursor-pointer" id="plan-regular" onclick="selectPlan('regular')">
                     <div class="flex items-center justify-between">
-                      <span class="font-bold text-title-md">Basic</span>
-                      <span class="material-symbols-outlined text-primary" id="check-basic" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                      <span class="font-bold text-title-md">Regular</span>
+                      <span class="material-symbols-outlined text-outline" id="check-regular">check_circle</span>
                     </div>
-                    <p class="text-2xl font-bold mt-md">$70<span class="text-sm font-normal text-on-surface-variant">/once</span></p>
-                    <ul class="text-sm space-y-1 mt-sm text-on-surface-variant">
-                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> 30-day access</li>
-                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> Basic task listing</li>
+                    <p class="text-2xl font-bold mt-2">$70</p>
+                    <p class="text-xs text-on-surface-variant">One-time fee</p>
+                    <ul class="plan-features mt-3">
+                      <li><span class="check">✓</span> 7-day platform access</li>
+                      <li><span class="check">✓</span> Basic task listing</li>
+                      <li><span class="check">✓</span> Email support</li>
+                      <li><span class="check">✓</span> Standard verification</li>
                     </ul>
+                    <div class="price-range">Ideal for beginners</div>
                   </div>
-                  <div class="payment-card border-2 border-outline-variant rounded-xl p-lg cursor-pointer" id="plan-premium" onclick="selectPlan('premium')">
+
+                  <!-- Premium Plan (Popular) -->
+                  <div class="payment-card popular border-2 rounded-xl p-4 cursor-pointer" id="plan-premium" onclick="selectPlan('premium')">
+                    <span class="popular-badge">🌟 Most Popular</span>
                     <div class="flex items-center justify-between">
                       <span class="font-bold text-title-md">Premium</span>
                       <span class="material-symbols-outlined text-outline" id="check-premium">check_circle</span>
                     </div>
-                    <p class="text-2xl font-bold mt-md">$200<span class="text-sm font-normal text-on-surface-variant">/once</span></p>
-                    <ul class="text-sm space-y-1 mt-sm text-on-surface-variant">
-                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> Unlimited access</li>
-                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> Priority task feed</li>
-                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> Verified badge</li>
+                    <p class="text-2xl font-bold mt-2">$200</p>
+                    <p class="text-xs text-on-surface-variant">One-time fee</p>
+                    <ul class="plan-features mt-3">
+                      <li><span class="check">✓</span> <strong>Unlimited</strong> platform access</li>
+                      <li><span class="check">✓</span> Priority task feed</li>
+                      <li><span class="check">✓</span> Verified badge</li>
+                      <li><span class="check">✓</span> Priority support</li>
+                      <li><span class="check">✓</span> Advanced analytics</li>
                     </ul>
+                    <div class="price-range">Best value for active taskers</div>
                   </div>
-                  <div class="payment-card border-2 border-outline-variant rounded-xl p-lg cursor-pointer" id="plan-professional" onclick="selectPlan('professional')">
+
+                  <!-- Pro Plan -->
+                  <div class="payment-card border-2 border-outline-variant rounded-xl p-4 cursor-pointer" id="plan-pro" onclick="selectPlan('pro')">
                     <div class="flex items-center justify-between">
                       <span class="font-bold text-title-md">Pro</span>
-                      <span class="material-symbols-outlined text-outline" id="check-professional">check_circle</span>
+                      <span class="material-symbols-outlined text-outline" id="check-pro">check_circle</span>
                     </div>
-                    <p class="text-2xl font-bold mt-md">$500<span class="text-sm font-normal text-on-surface-variant">/once</span></p>
-                    <ul class="text-sm space-y-1 mt-sm text-on-surface-variant">
-                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> Lifetime access</li>
-                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> Premium task insights</li>
-                      <li class="flex items-center gap-xs"><span class="material-symbols-outlined text-xs">check</span> 1-on-1 mentorship</li>
+                    <p class="text-2xl font-bold mt-2">$500</p>
+                    <p class="text-xs text-on-surface-variant">One-time fee</p>
+                    <ul class="plan-features mt-3">
+                      <li><span class="check">✓</span> <strong>Lifetime</strong> platform access</li>
+                      <li><span class="check">✓</span> Premium task insights</li>
+                      <li><span class="check">✓</span> 1-on-1 mentorship</li>
+                      <li><span class="check">✓</span> Early access to new features</li>
+                      <li><span class="check">✓</span> Exclusive Pro community</li>
+                      <li><span class="check">✓</span> Priority dispute resolution</li>
                     </ul>
+                    <div class="price-range">For serious professionals</div>
                   </div>
                 </div>
-                <!-- Bank Transfer Details (always visible) -->
-                <div class="mt-6 p-4 bg-primary/5 rounded-xl border border-primary/20">
-                  <h4 class="font-title-md text-title-md flex items-center gap-2"><span class="material-symbols-outlined text-primary">account_balance</span> Bank Transfer Details</h4>
-                  <p class="text-sm text-on-surface-variant mt-2">Make payment to the account below and include your email as reference.</p>
-                  <div class="grid grid-cols-2 gap-2 mt-3 text-sm">
-                    <span class="font-semibold">Bank:</span><span>First Global Bank</span>
-                    <span class="font-semibold">Account Name:</span><span>Apextask Services Ltd</span> 
-                    <span class="font-semibold">Account Number:</span><span>1234567890</span>
-                    <span class="font-semibold">Sort Code:</span><span>01-02-03</span>
-                  </div>
+
+                <!-- Payment Methods -->
+                <h4 class="font-semibold mb-3">Choose Payment Method</h4>
+                <div class="grid grid-cols-1 gap-3 mb-4">
+                  <button type="button" onclick="selectPaymentMethod('paypal')" class="payment-method-btn p-3 border-2 border-primary rounded-xl text-center bg-primary/5 selected" id="method-paypal">
+                    <span class="material-symbols-outlined text-2xl">payments</span>
+                    <span class="block text-sm mt-1">Pay with PayPal</span>
+                  </button>
                 </div>
+
+                <!-- PayPal Payment -->
+                <div id="paypal-payment" class="payment-method-content">
+                  <div class="text-center mb-4">
+                    <p class="text-sm text-on-surface-variant">Pay securely with PayPal. Click the button below to view payment details.</p>
+                  </div>
+                  <button type="button" onclick="openPayPalModal()" class="w-full bg-[#0070ba] text-white py-3 rounded-lg font-medium hover:bg-[#003087] transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined">payments</span>
+                    Pay with PayPal
+                  </button>
+                </div>
+
+                <h5>agree to the payment terms first</h5>
+
                 <div class="mt-md p-md bg-surface-container-high rounded-lg">
                   <label class="flex items-center gap-md cursor-pointer">
                     <input id="paymentTerms" class="peer w-5 h-5 border-outline-variant rounded focus:ring-primary text-primary transition-all" type="checkbox" required/>
-                    <span class="font-body-md text-body-md text-on-surface">I confirm I have made the transfer and agree to the <a class="text-primary hover:underline" href="#">terms</a>.</span>
+                    <span class="font-body-md text-body-md text-on-surface">I agree to the <a class="text-primary hover:underline" href="#">payment terms</a>.</span>
                   </label>
                 </div>
               </div>
@@ -653,7 +1133,7 @@
     </div>
   </div>
 
-  <!-- ====== SUCCESS PAGE (Application Received) ====== -->
+  <!-- ====== SUCCESS PAGE ====== -->
   <div id="successPage" class="page-section pt-16 pb-24 bg-mesh-gradient flex items-center justify-center min-h-screen">
     <div class="max-w-container-max mx-auto px-gutter w-full py-xl flex flex-col items-center">
       <div class="grid grid-cols-1 md:grid-cols-12 gap-lg w-full max-w-4xl">
@@ -699,12 +1179,64 @@
     </div>
   </div>
 
+  <!-- ====== PAYPAL MODAL ====== -->
+  <div id="paypalModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="flex justify-between items-start mb-4">
+        <h2 class="text-2xl font-bold text-primary flex items-center gap-2">
+          <span class="material-symbols-outlined">payments</span> PayPal Payment
+        </h2>
+        <button onclick="closeModal('paypalModal')" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+      </div>
+      
+      <div class="payment-account-details">
+        <h4 class="font-semibold flex items-center gap-2 mb-3">
+          <span class="material-symbols-outlined text-primary">account_balance</span>
+          PayPal Account Details
+        </h4>
+        <div class="space-y-2 text-sm">
+          <p><strong>PayPal Email:</strong> <span class="text-primary font-mono">david.stewart73381@gmx.com</span></p>
+          <p><strong>Name:</strong> <span class="font-bold">Hope Derby</span></p>
+          <p><strong>Amount:</strong> <span class="font-bold text-lg">$<span id="paypalAmount">70</span>.00</span></p>
+          <p><strong>Plan:</strong> <span id="paypalPlanName">Regular</span></p>
+          <p><strong>Reference:</strong> apextask1@gmail.com</p>
+          <p class="text-xs text-on-surface-variant mt-2">Send the payment to the PayPal email above.</p>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <label class="font-medium block mb-2">Upload Payment Screenshot *</label>
+        <div id="paypalUploadArea" class="upload-area" onclick="document.getElementById('paypalFileInput').click()">
+          <span class="material-symbols-outlined icon">cloud_upload</span>
+          <p class="text">Click to upload or drag & drop your screenshot</p>
+          <p class="text-xs text-gray-400 mt-1">PNG, JPG, PDF (Max 5MB)</p>
+        </div>
+        <input type="file" id="paypalFileInput" accept="image/*,.pdf" class="hidden" onchange="handleFileUpload('paypal')"/>
+        <div id="paypalFilePreview" class="file-preview">
+          <span class="material-symbols-outlined">check_circle</span>
+          <span id="paypalFileName">File uploaded</span>
+        </div>
+      </div>
+
+      <div class="mt-4 flex items-center gap-3">
+        <input type="checkbox" id="paypalConfirm" class="w-4 h-4 text-primary"/>
+        <label for="paypalConfirm" class="text-sm">I confirm I have sent the payment via PayPal</label>
+      </div>
+
+      <h5>send your payment reciept to <span class="text-primary font-mono"><a href="https://apextask1@gmail.com">apextask1@gmail.com</a></span></h5>
+
+      <button onclick="confirmPaypalPayment()" class="w-full mt-4 bg-primary text-white py-3 rounded-lg font-medium hover:opacity-90 transition-all">
+        Submit Payment Proof
+      </button>
+    </div>
+  </div>
+
   <!-- ====== FOOTER ====== -->
   <footer class="bg-surface-container-low border-t border-outline-variant py-xl mt-auto">
     <div class="flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto px-gutter gap-base">
       <div class="flex items-center gap-base">
-        <span class="font-title-md text-title-md font-bold text-primary">Apextask</span>
-        <p class="font-label-md text-label-md text-on-surface opacity-80">© 2024 Apextask Professional Services.</p>
+        <span class="font-title-md text-title-md font-bold text-primary">ApexTask</span>
+        <p class="font-label-md text-label-md text-on-surface opacity-80">© 2024 ApexTask Professional Services.</p>
       </div>
       <div class="flex flex-wrap gap-lg">
         <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary transition-opacity cursor-pointer" onclick="navigateTo('faq')">FAQ</a>
@@ -726,7 +1258,7 @@
   </nav>
 
   <script>
-    // ----- NAVIGATION -----
+    // ====== NAVIGATION ======
     function navigateTo(page) {
       document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
       const map = {
@@ -736,6 +1268,8 @@
         'services': 'servicesPage',
         'skills': 'skillsPage',
         'faq': 'faqPage',
+        'signin': 'signinPage',
+        'dashboard': 'dashboardPage',
         'application': 'applicationPage',
         'success': 'successPage'
       };
@@ -746,13 +1280,13 @@
       document.getElementById('mobileOverlay').classList.remove('open');
     }
 
-    // ----- MOBILE MENU -----
+    // ====== MOBILE MENU ======
     function toggleMobileMenu() {
       document.getElementById('mobileMenu').classList.toggle('open');
       document.getElementById('mobileOverlay').classList.toggle('open');
     }
 
-    // ----- CUSTOM SKILLS -----
+    // ====== CUSTOM SKILLS ======
     let customSkills = [];
     function addCustomSkill() {
       const input = document.getElementById('customSkill');
@@ -774,11 +1308,24 @@
       renderCustomSkills();
     }
 
-    // ----- STEPPER -----
+    // ====== SIGN IN ======
+    function handleSignIn(e) {
+      e.preventDefault();
+      const email = document.getElementById('signinEmail').value;
+      const name = email.split('@')[0];
+      document.getElementById('dashboardUserName').textContent = name.charAt(0).toUpperCase() + name.slice(1);
+      navigateTo('dashboard');
+    }
+
+    // ====== STEPPER ======
     let currentStep = 1;
     const totalSteps = 4;
     const titles = ["Personal Information", "Skills & Experience", "Availability", "Payment"];
     let isProcessing = false;
+    let selectedPlanAmount = 70;
+    let selectedPlanName = "Regular";
+    let paypalFileUploaded = false;
+    let bankFileUploaded = false;
 
     function validateStep(step) {
       if (step === 1) {
@@ -810,7 +1357,7 @@
       }
       if (step === 4) {
         if (!document.getElementById('paymentTerms').checked) {
-          alert('Please confirm you have made the transfer and agree to the terms.');
+          alert('Please agree to the payment terms.');
           return false;
         }
         return true;
@@ -858,21 +1405,23 @@
         currentStep++;
         updateUI();
       } else {
-        // Payment step - show processing state
+        if (!paypalFileUploaded) {
+          alert('Please complete the PayPal payment first.');
+          return;
+        }
+        
         const nextBtn = document.getElementById('nextBtn');
         isProcessing = true;
         nextBtn.disabled = true;
-        nextBtn.innerHTML = `<span class="flex items-center gap-2"><span class="animate-spin-slow inline-block">⟳</span> Processing Payment...</span>`;
+        nextBtn.innerHTML = `<span class="flex items-center gap-2"><span class="animate-spin-slow inline-block">⟳</span> Processing...</span>`;
         nextBtn.classList.add('opacity-70', 'cursor-not-allowed');
         
-        // Simulate payment processing (bank transfer confirmation)
         setTimeout(() => {
           isProcessing = false;
           nextBtn.disabled = false;
           nextBtn.classList.remove('opacity-70', 'cursor-not-allowed');
-          // Show success page
           navigateTo('success');
-        }, 10000);
+        }, 2000);
       }
     }
 
@@ -883,19 +1432,38 @@
       }
     }
 
-    // ----- PAYMENT PLAN -----
+    // ====== PAYMENT PLAN ======
     function selectPlan(plan) {
-      const cards = ['basic', 'premium', 'professional'];
-      cards.forEach(id => {
+      const plans = ['regular', 'premium', 'pro'];
+      const amounts = { regular: 70, premium: 200, pro: 500 };
+      const names = { regular: 'Regular', premium: 'Premium', pro: 'Pro' };
+      
+      plans.forEach(id => {
         const card = document.getElementById(`plan-${id}`);
         const check = document.getElementById(`check-${id}`);
         if (id === plan) {
           card.classList.add('selected');
+          card.classList.remove('border-outline-variant');
+          card.classList.add('border-primary');
+          if (id === 'premium') {
+            card.classList.add('popular');
+          } else {
+            card.classList.remove('popular');
+          }
           check.classList.remove('text-outline');
           check.classList.add('text-primary');
           check.style.fontVariationSettings = "'FILL' 1";
+          selectedPlanAmount = amounts[id];
+          selectedPlanName = names[id];
+          document.getElementById('paypalAmount').textContent = amounts[id];
+          document.getElementById('paypalPlanName').textContent = names[id];
         } else {
           card.classList.remove('selected');
+          card.classList.add('border-outline-variant');
+          card.classList.remove('border-primary');
+          if (id === 'premium') {
+            card.classList.add('popular');
+          }
           check.classList.remove('text-primary');
           check.classList.add('text-outline');
           check.style.fontVariationSettings = "'FILL' 0";
@@ -903,7 +1471,122 @@
       });
     }
 
-    // ----- DAY SELECTION -----
+    // ====== PAYMENT METHODS ======
+    function selectPaymentMethod(method) {
+      document.querySelectorAll('.payment-method-btn').forEach(btn => {
+        btn.classList.remove('selected', 'border-primary', 'bg-primary/5');
+        btn.classList.add('border-outline-variant');
+      });
+      const btn = document.getElementById(`method-${method}`);
+      if (btn) {
+        btn.classList.add('selected', 'border-primary', 'bg-primary/5');
+        btn.classList.remove('border-outline-variant');
+      }
+
+      document.querySelectorAll('.payment-method-content').forEach(el => el.classList.add('hidden'));
+      const contentMap = {
+        'paypal': 'paypal-payment'
+      };
+      const target = document.getElementById(contentMap[method]);
+      if (target) target.classList.remove('hidden');
+    }
+
+    // ====== MODAL FUNCTIONS ======
+    function openPayPalModal() {
+      if (!document.getElementById('paymentTerms').checked) {
+        alert('Please agree to the payment terms first.');
+        return;
+      }
+      document.getElementById('paypalModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        }
+      });
+    });
+
+    // ====== FILE UPLOAD ======
+    function handleFileUpload(type) {
+      const input = document.getElementById(`${type}FileInput`);
+      const file = input.files[0];
+      if (!file) return;
+
+      const preview = document.getElementById(`${type}FilePreview`);
+      const nameSpan = document.getElementById(`${type}FileName`);
+      
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File is too large. Please upload a file under 5MB.');
+        input.value = '';
+        return;
+      }
+
+      const validTypes = ['image/png', 'image/jpeg', 'image/jpg', 'application/pdf'];
+      if (!validTypes.includes(file.type)) {
+        alert('Please upload a PNG, JPG, or PDF file.');
+        input.value = '';
+        return;
+      }
+
+      nameSpan.textContent = file.name;
+      preview.classList.add('show');
+      
+      if (type === 'paypal') {
+        paypalFileUploaded = true;
+      }
+    }
+
+    document.querySelectorAll('.upload-area').forEach(area => {
+      area.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        this.classList.add('dragover');
+      });
+      area.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        this.classList.remove('dragover');
+      });
+      area.addEventListener('drop', function(e) {
+        e.preventDefault();
+        this.classList.remove('dragover');
+        const input = this.nextElementSibling;
+        if (input && input.type === 'file') {
+          const files = e.dataTransfer.files;
+          if (files.length > 0) {
+            input.files = files;
+            const type = input.id.includes('paypal') ? 'paypal' : 'bank';
+            handleFileUpload(type);
+          }
+        }
+      });
+    });
+
+    // ====== PAYMENT CONFIRMATION ======
+    function confirmPaypalPayment() {
+      const confirmCheck = document.getElementById('paypalConfirm');
+      if (!confirmCheck.checked) {
+        alert('Please confirm that you have sent the payment via PayPal.');
+        return;
+      }
+      
+      if (!paypalFileUploaded) {
+        alert('Please upload a screenshot of your payment.');
+        return;
+      }
+
+      closeModal('paypalModal');
+      alert('✅ PayPal payment confirmed! Your application will be processed.');
+    }
+
+    // ====== DAY SELECTION ======
     document.querySelectorAll('.day-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         this.classList.toggle('bg-primary');
@@ -916,9 +1599,10 @@
       });
     });
 
-    // ----- INIT -----
+    // ====== INIT ======
     updateUI();
-    selectPlan('basic');
+    selectPlan('premium');
+    selectPaymentMethod('paypal');
 
     document.getElementById('customSkill').addEventListener('keydown', function(e) {
       if (e.key === 'Enter') { e.preventDefault(); addCustomSkill(); }
